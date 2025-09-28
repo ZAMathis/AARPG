@@ -1,17 +1,17 @@
 class_name Player extends CharacterBody2D
 
-const MOVEMENT_SPEED: float = 10000.0
 
 var input_direction: Vector2 = Vector2.ZERO
 var cardinal_direction: Vector2 = Vector2.ZERO
-var state: String = "idle"
+
+@onready var state_machine: PlayerStateMachine = $StateMachine
+
+func _ready() -> void:
+	state_machine.init(self)
 
 func _process(delta: float) -> void:
 	input_direction = Input.get_vector("left","right","up","down")
-	velocity = (input_direction * MOVEMENT_SPEED) * delta
-	
-	if set_state() || set_direction():
-		update_animation()
+	pass
 	
 func _physics_process(delta: float) -> void:
 	move_and_slide()
@@ -33,16 +33,8 @@ func set_direction() -> bool:
 	cardinal_direction = new_direction
 	$Sprite2D.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
 	return true
-
-func set_state() -> bool:
-	var new_state: String = "idle" if input_direction == Vector2.ZERO else "walk"
 	
-	if new_state == state:
-		return false
-	state = new_state
-	return true
-	
-func update_animation():
+func update_animation(state: String) -> void:
 	%AnimationPlayer.play(state + "_" + anim_direction())
 
 func anim_direction() -> String:
