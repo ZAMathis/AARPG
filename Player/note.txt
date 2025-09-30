@@ -1,6 +1,0 @@
-Some things (like sprites and scripts) that are supposed to be in this 
-folder are currently not, 
-because they were made at the beginning of the project before this folder 
-was made.
-
-Lets just say moving them is on the todo list
