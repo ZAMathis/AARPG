@@ -31,7 +31,7 @@ func set_direction() -> bool:
 		return false
 		
 	cardinal_direction = new_direction
-	$Sprite2D.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
+	$PlayerSprite.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
 	return true
 	
 func update_animation(state: String) -> void:

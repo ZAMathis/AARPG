@@ -2,24 +2,36 @@ class_name State_Attack extends State
 
 var is_attacking: bool = false
 
+@export var attack_sound: AudioStream
+
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
+@onready var attack_anim_player: AnimationPlayer = $"../../PlayerSprite/AttackEffectSprite/AttackAnimationPlayer"
+@onready var audio_player: AudioStreamPlayer2D = $"../../Audio/AudioStreamPlayer2D"
 @onready var walk_state: State = $"../Walk"
 @onready var idle_state: State = $"../Idle"
 
 # what happens when a player enters this state
 func enter() -> void:
 	player.update_animation("attack")
+	attack_anim_player.play("attack_%s" % player.anim_direction())
 	animation_player.animation_finished.connect(end_attack)
 	is_attacking = true
+	
+	# audio
+	audio_player.stream = attack_sound
+	audio_player.pitch_scale = randf_range(0.9, 1.1)
+	audio_player.play()
 	pass
 	
 # same as above but on exit
 func exit() -> void:
+	animation_player.animation_finished.disconnect(end_attack)
+	is_attacking = false
 	pass
 	
 # for what happens during the _process update in this state
 func process(_delta: float) -> State:
-	player.velocity = Vector2.ZERO
+	player.velocity -= (player.velocity * 10) * _delta
 	
 	if is_attacking == false:
 		if player.input_direction == Vector2.ZERO:
