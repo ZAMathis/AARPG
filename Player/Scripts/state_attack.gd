@@ -9,6 +9,7 @@ var is_attacking: bool = false
 @onready var audio_player: AudioStreamPlayer2D = $"../../Audio/AudioStreamPlayer2D"
 @onready var walk_state: State = $"../Walk"
 @onready var idle_state: State = $"../Idle"
+@onready var hurt_box: HurtBox = $"../../Interaction/HurtBox"
 
 # what happens when a player enters this state
 func enter() -> void:
@@ -16,6 +17,10 @@ func enter() -> void:
 	attack_anim_player.play("attack_%s" % player.anim_direction())
 	animation_player.animation_finished.connect(end_attack)
 	is_attacking = true
+	
+	#hurtbox
+	await get_tree().create_timer(0.075).timeout
+	hurt_box.monitoring = true
 	
 	# audio
 	audio_player.stream = attack_sound
@@ -27,6 +32,7 @@ func enter() -> void:
 func exit() -> void:
 	animation_player.animation_finished.disconnect(end_attack)
 	is_attacking = false
+	hurt_box.monitoring = false
 	pass
 	
 # for what happens during the _process update in this state

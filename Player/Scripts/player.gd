@@ -6,6 +6,9 @@ var cardinal_direction: Vector2 = Vector2.ZERO
 
 @onready var state_machine: PlayerStateMachine = $StateMachine
 
+# For player interactions in player_interactions script
+signal DirectionChanged(new_direction: Vector2)
+
 func _ready() -> void:
 	state_machine.init(self)
 
@@ -31,6 +34,7 @@ func set_direction() -> bool:
 		return false
 		
 	cardinal_direction = new_direction
+	DirectionChanged.emit(new_direction)
 	$PlayerSprite.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
 	return true
 	
