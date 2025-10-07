@@ -23,7 +23,6 @@ func process(_delta: float) -> State:
 	
 	if player.set_direction():
 		player.update_animation("walk")
-	
 	return null
 
 # for what happens during the _physics_process update in this state
@@ -34,4 +33,9 @@ func physics_process(_delta: float) -> State:
 func handle_input(_event: InputEvent) -> State:
 	if _event.is_action_pressed("attack"):
 		return attack_state
+		
+	if _event.is_action_pressed("run"):
+		movement_speed += 100.0
+	elif _event.is_action_released("run"):
+		movement_speed = 125.0
 	return null
