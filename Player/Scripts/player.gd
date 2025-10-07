@@ -14,7 +14,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	input_direction = Input.get_vector("left","right","up","down")
-	print("Player pos: ", global_position)
+	# print("Player pos: ", global_position)
 	pass
 	
 func _physics_process(delta: float) -> void:
