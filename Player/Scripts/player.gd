@@ -14,16 +14,17 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	input_direction = Input.get_vector("left","right","up","down")
+	print("Player pos: ", global_position)
 	pass
 	
 func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 func set_direction() -> bool:
-	var new_direction: Vector2 = cardinal_direction
-	
 	if input_direction == Vector2.ZERO:
 		return false
+	
+	var new_direction: Vector2 = cardinal_direction
 		
 	if input_direction.y == 0:
 		new_direction = Vector2.LEFT if input_direction.x < 0 else Vector2.RIGHT
